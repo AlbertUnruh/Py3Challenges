@@ -1,2 +1,2 @@
-# Py3Challanges
-A collection of challanges for programming beginners.
+# Py3Challenges
+A collection of challenges for programming beginners.
