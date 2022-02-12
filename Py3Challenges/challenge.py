@@ -210,6 +210,9 @@ class Challenge:
             print("\n**********")
             print("Try again!")
 
+    def __repr__(self):
+        return "<{0.__class__.__name__} ({0._name}): {0._intro}>".format(self)
+
 
 def load_challenges() -> list[Challenge]:
     """
@@ -225,9 +228,9 @@ def load_challenges() -> list[Challenge]:
     for lib in (Path(__file__).parent / "saves/challenges").iterdir():
         if not lib.name.endswith(".py") or lib.name.startswith("_"):
             continue
-        modules.insert(0, lib.name.removesuffix(".py"))
+        modules.append(lib.name.removesuffix(".py"))
 
-    for module in modules:
+    for module in sorted(modules):
         __challenges.append(
             import_module(".saves.challenges." + module, __package__).challenge  # noqa
         )

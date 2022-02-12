@@ -13,6 +13,7 @@ numeric id (in the order in which the where loaded).
 
 Then you can use following code-structure to make the
 challenges:
+
 >>> import Py3Challenges as Py3C
 ... challenge = Py3C.get_challenge(0)  # the "print"-challenge
 ... with challenge:
@@ -24,6 +25,7 @@ Sometimes the challenges also provides the argument
 
 They can be accessed using ``my_dictionary["key"]``.
 A short example on a challange:
+
 >>> import Py3Challenges as Py3C
 ... challenge = Py3C.get_challenge(1)  # the "addition"-challenge
 ... x = challenge.values["x"]
@@ -31,6 +33,12 @@ A short example on a challange:
 ... with challenge:
 ...     # do whatever you want inside here to complete the challenge
 ...     pass
+
+Getting Help
+------------
+You should try the method ``challenge.get_help()``. If this
+doesn't help you feel free to open an issue over on GitHub
+(https://github.com/AlbertUnruh/Py3Challenges/issues).
 """
 
 
