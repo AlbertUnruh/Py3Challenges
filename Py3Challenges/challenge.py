@@ -159,13 +159,13 @@ class Challenge:
 
         self._raise = do_raise
 
-    def get_help(self):
+    def get_help(self) -> None:
         """
         Prompts the help from the challenge.
         """
         print(self.help)
 
-    def __enter__(self):
+    def __enter__(self) -> None:
         welcome = f"welcome to {self._name}!".title()
         print(welcome)
         print("*" * len(welcome))
@@ -186,7 +186,7 @@ class Challenge:
         exc_type: _EXC_TYPE,
         exc_val: _EXC_VAL,
         exc_tb: _EXC_TB,
-    ):
+    ) -> None:
         exc = exc_type, exc_val, exc_tb
 
         stdin = ""
@@ -210,7 +210,7 @@ class Challenge:
             print("\n**********")
             print("Try again!")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "<{0.__class__.__name__} ({0._name}): {0._intro}>".format(self)
 
 
