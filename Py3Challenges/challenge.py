@@ -128,7 +128,7 @@ class Challenge(ABC):
         self.values = values.copy() if values is not None else {}
 
         many = next(self.__counter)
-        self._name = name or f"Challenge {many}"
+        self._name = name or f"Challenge #{many:0>3}"
 
         if capture_stdin:
             import warnings
@@ -147,17 +147,17 @@ class Challenge(ABC):
         self._raise = do_raise
 
     def __enter__(self):
+        welcome = f"welcome to {self._name}!".title()
+        print(welcome)
+        print("*" * len(welcome))
+        print(self._intro)
+
         if self._stdin is not None:
             self._stdin.__enter__()
         if self._stdout is not None:
             self._stdout.__enter__()
         if self._stderr is not None:
             self._stderr.__enter__()
-
-        welcome = f"Welcome To {self.__class__.__name__}!"
-        print(welcome)
-        print("*" * len(welcome))
-        print(self._intro)
 
     def __exit__(
         self,
@@ -206,6 +206,6 @@ def func(stdin, stdout, stderr, exc):
 
 
 with Challenge(
-    "Hello World!", func, capture_stdin=True, capture_stdout=True, capture_stderr=True
+    "should be #000", func, capture_stdin=True, capture_stdout=True, capture_stderr=True
 ):
     pass
