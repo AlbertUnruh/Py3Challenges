@@ -6,7 +6,7 @@ It would be best if you import this project as ``Py3C``.
 
 Getting Started
 ---------------
-First you have to get you challenge.
+First you have to get your challenge.
 Go get them you can use ``Py3C.get_challenge(name_o_id)``
 where ``name_o_id`` is the name of the challenge or the
 numeric id (in the order in which the where loaded).
