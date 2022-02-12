@@ -9,7 +9,7 @@ Getting Started
 First you have to get your challenge.
 Go get them you can use ``Py3C.get_challenge(name_o_id)``
 where ``name_o_id`` is the name of the challenge or the
-numeric id (in the order in which the where loaded).
+numeric id (in the order in which the< where loaded).
 
 Then you can use following code-structure to make the
 challenges:
