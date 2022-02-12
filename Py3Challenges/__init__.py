@@ -9,3 +9,6 @@ __description__ = "A collection of challenges for programming beginners."
 from . import challenge
 
 from .challenge import *
+
+
+all_challenges: list[Challenge] = load_challenges()

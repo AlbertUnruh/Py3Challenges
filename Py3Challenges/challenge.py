@@ -1,10 +1,15 @@
-__all__ = ("Challenge",)
+__all__ = (
+    "Challenge",
+    "load_challenges",
+    "get_challenge",
+)
 
 
 import sys
-from abc import ABC
+from importlib import import_module
 from io import TextIOWrapper, BytesIO
 from itertools import count
+from pathlib import Path
 from types import TracebackType
 from typing import (
     Callable,
@@ -12,6 +17,7 @@ from typing import (
     Literal,
     Optional,
     Type,
+    Union,
 )
 
 
@@ -21,6 +27,9 @@ _EXC_VAL = Optional[BaseException]
 _EXC_TB = Optional[TracebackType]
 _EXC_tuple = tuple[_EXC_TYPE, _EXC_VAL, _EXC_TB]
 _ValidateFunction = Callable[[str, str, str, _EXC_tuple], bool]
+
+
+__challenges: list["Challenge"] = []
 
 
 class STDCopy(TextIOWrapper):
@@ -55,14 +64,12 @@ class STDCopy(TextIOWrapper):
 
     def __enter__(self):
         setattr(sys, self._std.lower(), self)
-        return super().__enter__()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         setattr(sys, self._std.lower(), self._sys_std)
-        return super().__exit__(exc_type, exc_val, exc_tb)
 
 
-class Challenge(ABC):
+class Challenge:
     """
     The base for every challenge.
     """
@@ -153,10 +160,13 @@ class Challenge(ABC):
         print(self._intro)
 
         if self._stdin is not None:
+            self._stdin.captured = ""
             self._stdin.__enter__()
         if self._stdout is not None:
+            self._stdout.captured = ""
             self._stdout.__enter__()
         if self._stderr is not None:
+            self._stderr.captured = ""
             self._stderr.__enter__()
 
     def __exit__(
@@ -189,23 +199,46 @@ class Challenge(ABC):
             print("Try again!")
 
 
-def func(stdin, stdout, stderr, exc):
-    print("*" * 50)
-    print("stdin")
-    print(stdin)
-    print("*" * 50)
-    print("stdout")
-    print(stdout)
-    print("*" * 50)
-    print("stderr")
-    print(stderr)
-    print("*" * 50)
-    print("exc")
-    print(exc)
-    return True
+def load_challenges() -> list[Challenge]:
+    """
+    Loads all challenges.
+
+    Returns
+    -------
+    list[Challenge]
+        All loaded challenges.
+    """
+    __challenges.clear()
+    for lib in (Path(__file__).parent / "saves/challenges").iterdir():
+        if not lib.name.endswith(".py") or lib.name.startswith("_"):
+            continue
+        print(lib)
+        c = lib.name.removesuffix(".py")
+        __challenges.append(
+            import_module(".saves.challenges." + c, __package__).challenge  # noqa
+        )
+    return __challenges
 
 
-with Challenge(
-    "should be #000", func, capture_stdin=True, capture_stdout=True, capture_stderr=True
-):
-    pass
+def get_challenge(
+    name_o_id: Union[str, int],
+    /,
+) -> Challenge:
+    """
+    Gets a specific challenge.
+
+    Parameters
+    ----------
+    name_o_id: str, int
+        The name or ID from the challenge.
+
+    Returns
+    -------
+    Challenge
+    """
+    if isinstance(name_o_id, int):
+        return __challenges[name_o_id]
+    for challenge in __challenges:
+        if challenge._name == name_o_id:  # noqa
+            return challenge
+    raise Exception(f"Unable to find Challenge {name_o_id!r}!")
