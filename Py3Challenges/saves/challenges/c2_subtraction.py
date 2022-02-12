@@ -8,7 +8,7 @@ from random import randint
 x = randint(1, 100)
 y = randint(1, 100)
 
-intro = f"You have to print the difference of {x} and {y}."
+intro = f"You have to print the difference of {x} and {y}. (values: x, y)"
 
 
 def validate_function(stdin: str, stdout: str, stderr: str, exc: tuple) -> bool:
