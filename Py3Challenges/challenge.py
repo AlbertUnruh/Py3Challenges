@@ -74,6 +74,7 @@ class Challenge:
     The base for every challenge.
     """
 
+    help: str
     values: dict[str, ...]
     _intro: str
     _name: str
@@ -85,6 +86,7 @@ class Challenge:
     __counter: Iterator[int] = count()
 
     __slots__ = (
+        "help",
         "values",
         "_intro",
         "_name",
@@ -100,6 +102,7 @@ class Challenge:
         intro: str,
         validate_function: _ValidateFunction,
         *,
+        help: str = None,  # noqa
         values: dict[str, ...] = None,
         name: str = None,
         # params for validation
@@ -116,6 +119,8 @@ class Challenge:
             The intro which will be printed on __enter__.
         validate_function: _ValidateFunction
             The function which validates the output on __exit__.
+        help: str
+            The help which should be prompted.
         values: dict[str, ...]
             The values for the challenge.
         name: str
@@ -133,6 +138,7 @@ class Challenge:
         self._intro = intro
         self._val_func = validate_function
         self.values = values.copy() if values is not None else {}
+        self.help = help or "This Challenge doesn't provide any help."
 
         many = next(self.__counter)
         self._name = name or f"Challenge #{many:0>3}"
@@ -152,6 +158,12 @@ class Challenge:
         self._stderr = STDCopy("stderr") if capture_stderr else None
 
         self._raise = do_raise
+
+    def get_help(self):
+        """
+        Prompts the help from the challenge.
+        """
+        print(self.help)
 
     def __enter__(self):
         welcome = f"welcome to {self._name}!".title()
