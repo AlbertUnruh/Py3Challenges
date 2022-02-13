@@ -6,7 +6,7 @@ It would be best if you import this project as ``Py3C``.
 
 Getting Started
 ---------------
-First you have to get you challenge.
+First you have to get your challenge.
 Go get them you can use ``Py3C.get_challenge(name_o_id)``
 where ``name_o_id`` is the name of the challenge or the
 numeric id (in the order in which the where loaded).
@@ -20,10 +20,26 @@ challenges:
 ...     # do whatever you want inside here to complete the challenge
 ...     pass
 
+If you need help while making a challenge you should use
+the ``.get_help()``-method.
+
+Example:
+>>> import Py3Challenges as Py3C
+... challenge = Py3C.get_challenge(1)  # the "addition"-challenge
+... challenge.what_values()
+
 Sometimes the challenges also provides the argument
 ``values`` which is an instance of ``dict``.
 
-They can be accessed using ``my_dictionary["key"]``.
+To get information about what values are present and
+which types they have, use the ``.what_values()``-method.
+
+Example:
+>>> import Py3Challenges as Py3C
+... challenge = Py3C.get_challenge(1)  # the "addition"-challenge
+... challenge.what_values()
+
+They can be accessed using ``values["key"]``.
 A short example on a challange:
 
 >>> import Py3Challenges as Py3C

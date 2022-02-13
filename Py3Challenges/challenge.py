@@ -159,6 +159,20 @@ class Challenge:
 
         self._raise = do_raise
 
+    def what_values(self) -> None:
+        """
+        Prompts the types for the values provided.
+        """
+        if self.values:
+            to_print = "You can use the following values:"
+            to_print += "\n(Structure: ``NAME: TYPE``)"
+            for k in self.values:
+                to_print += f"\n{k}: {self.values[k].__class__.__name__}"
+
+        else:
+            to_print = "There aren't any values present, so you have to master it without them."
+        print(to_print)
+
     def get_help(self) -> None:
         """
         Prompts the help from the challenge.
